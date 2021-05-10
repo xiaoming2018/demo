@@ -1,27 +1,36 @@
 
 var rendener, camera, scene, gui, light, stats, controls;
 var cube, cube2, cube3;
+var width,height;
 
 function initRender(){
-    rendener = new THREE.WebGLRenderer({antialias: true});
+    var div = document.getElementById("display");
+    width = div.clientWidth||div.offsetWidth;
+    height = div.clientHeight|| div.offsetHeight;
+
+    rendener = new THREE.WebGLRenderer({
+        antialias: true,
+        preserveDrawingBuffer: false // 是否保存绘图缓冲
+    });
     rendener.setPixelRatio(window.devicePixelRatio);
-    rendener.setSize(window.innerWidth, window.innerHeight);
+    rendener.setSize(width, height);
     rendener.setClearColor(0xeeeeee);
     rendener.shadowMap.enabled = true;
     // 制定节点
-    document.getElementById("display").appendChild(rendener.domElement);
+    document.getElementById("display1").appendChild(rendener.domElement);
+    document.getElementById("display2").appendChild(rendener.domElement);
     //document.body.appendChild(rendener.domElement);
 }
 
 function initCamera(){
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(0, 0, 15);
 }
 
 function initScene(){
     // 天空盒纹理
     var cubeTextureLoader = new THREE.CubeTextureLoader();
-    cubeTextureLoader.setPath('lib/textures/cube/space/');
+    cubeTextureLoader.setPath('static/textures/cube/space/');
 
     var cubeTexture = cubeTextureLoader.load([
         'right.jpg', 'left.jpg',
@@ -52,7 +61,6 @@ function initLight(){
 
     // 平行光需要开启阴影投射
     light.castShadow = true;
-
     scene.add(light);
 }
 
@@ -115,8 +123,8 @@ function initControls(){
 // 每帧额外的运算
 function render() {
     // 获取到窗口的一般高度和一半宽度
-    let halfwidth = window.innerWidth / 2;
-    let halfheight = window.innerHeight / 2;
+    let halfwidth = width / 2;
+    let halfheight = height / 2;
 
     let vector1 = cube.position.clone().project(camera);
     let vector2 = cube2.position.clone().project(camera);
@@ -140,9 +148,9 @@ function render() {
 }
 
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    rendener.setSize(window.innerWidth, window.innerHeight);
+    rendener.setSize(width, height);
 }
 
 function animate() {
@@ -150,7 +158,7 @@ function animate() {
     render();
 
     // 更新性能插件
-    stats.update();
+    //stats.update();
     controls.update();
     rendener.render(scene, camera);
     requestAnimationFrame(animate);
@@ -164,7 +172,7 @@ function draw() {
     initLight();
     initModel();
     initControls();
-    initStats();
+    //initStats();
 
     animate();
     window.onresize = onWindowResize;
