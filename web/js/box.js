@@ -1,3 +1,4 @@
+
 var rendener, camera, scene, gui, light, stats, controls;
 var cube, cube2, cube3;
 
@@ -7,9 +8,9 @@ function initRender(){
     rendener.setSize(window.innerWidth, window.innerHeight);
     rendener.setClearColor(0xeeeeee);
     rendener.shadowMap.enabled = true;
-
     // 制定节点
-    document.body.appendChild(rendener.domElement);
+    document.getElementById("display").appendChild(rendener.domElement);
+    //document.body.appendChild(rendener.domElement);
 }
 
 function initCamera(){
@@ -20,7 +21,7 @@ function initCamera(){
 function initScene(){
     // 天空盒纹理
     var cubeTextureLoader = new THREE.CubeTextureLoader();
-    cubeTextureLoader.setPath('/lib/textures/cube/space/');
+    cubeTextureLoader.setPath('lib/textures/cube/space/');
 
     var cubeTexture = cubeTextureLoader.load([
         'right.jpg', 'left.jpg',
@@ -83,12 +84,13 @@ function initModel() {
 
 // 初始化性能插件
 function initStats(){
-    stats = new stats();
-    document.body.appendChild(stats.dom);
+    stats = new Stats();
+    document.getElementById("display").appendChild(stats.dom);
+    //document.body.appendChild(stats.dom);
 }
 
 function initControls(){
-    controls = new THREE.OrbitControls(camera, rendener.domElement);
+    controls = new THREE.OrbitControls(this.camera, this.rendener.domElement);
     // 设置控制器的中心点
     //controls.target.set( 0, 5, 0 );
     // 如果使用animate方法时，将此函数删除
@@ -96,7 +98,7 @@ function initControls(){
     // 使动画循环使用时阻尼或自转 意思是否有惯性
     controls.enableDamping = true;
     //动态阻尼系数 就是鼠标拖拽旋转灵敏度
-    //controls.dampingFactor = 0.25;
+    controls.dampingFactor = 0.25;
     //是否可以缩放
     controls.enableZoom = true;
     //是否自动旋转
