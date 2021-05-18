@@ -13,6 +13,7 @@
 <script src="js/libs/stats.min.js"></script>
 <script src="js/libs/dat.gui.min.js"></script>
 <script src="js/box.js"></script>
+<script src="js/box2.js"></script>
 
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -71,20 +72,15 @@
                     <div class="layui-card">
                         <div class="layui-card-header">全局视角</div>
                         <div id= "display" style="width: 800px; height:580px" class="layui-card-body border:1px solid #F00">
-                            <body onload="draw()">
-                                <div id="display1"  ></div>
-                            </body>
+                                <div id="display1"></div>
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-md6">
                     <div class="layui-card">
                         <div class="layui-card-header">单相机视角</div>
-                        <div class="layui-card-body">
                             <div style="width: 800px; height:580px" class="layui-card-body border:1px solid #F00">
-                                <body onload="draw()">
                                     <div id="display2"></div>
-                                </body>
                             </div>
                         </div>
                     </div>
@@ -97,12 +93,16 @@
     <div class="title two">第二个盒子</div>
     <div class="title three">第三个盒子</div>
 
+    <div class="title four">第四个盒子</div>
+    <div class="title five">第五个盒子</div>
+    <div class="title six">第六个盒子</div>
+
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         底部固定区域
     </div>
 </div>
-
+<script type="text/javascript"> window.onload = function(){ draw(); draw2();} </script>
 <script src="layui/layui.js"></script>
 <script>
     layui.use(['upload','element','layer','form'],function () {

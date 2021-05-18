@@ -1,25 +1,23 @@
-
-var rendener, camera, scene, gui, light, stats, controls;
+var scene, renderer, camera, gui, light, stats, controls;
 var cube, cube2, cube3;
-var width,height;
+var width, height; // div
 
 function initRender(){
     var div = document.getElementById("display");
-    width = div.clientWidth||div.offsetWidth;
-    height = div.clientHeight|| div.offsetHeight;
 
-    rendener = new THREE.WebGLRenderer({
+    width = div.clientWidth || div.offsetWidth;
+    height = div.clientHeight || div.offsetHeight;
+
+    renderer = new THREE.WebGLRenderer({
         antialias: true,
         preserveDrawingBuffer: false // 是否保存绘图缓冲
     });
-    rendener.setPixelRatio(window.devicePixelRatio);
-    rendener.setSize(width, height);
-    rendener.setClearColor(0xeeeeee);
-    rendener.shadowMap.enabled = true;
-    // 制定节点
-    document.getElementById("display1").appendChild(rendener.domElement);
-    document.getElementById("display2").appendChild(rendener.domElement);
-    //document.body.appendChild(rendener.domElement);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(width, height);
+    renderer.setClearColor(0xeeeeee);
+    renderer.shadowMap.enabled = true;
+    // point the dom for renderer
+    document.getElementById("display1").appendChild(renderer.domElement);
 }
 
 function initCamera(){
@@ -37,16 +35,15 @@ function initScene(){
         'top.jpg','bottom.jpg',
         'front.jpg', 'back.jpg'
     ]);
-
     scene = new THREE.Scene();
-    scene.background = cubeTexture;
+    scene.background = cubeTexture; // 第一场景
 }
 
-// 初始化dat.GUI 简化实验流程
-function initGUI(){
-    gui = {};
-    var datGUI = new dat.GUI();
-}
+// // 初始化dat.GUI 简化实验流程
+// function initGUI(){
+//     gui = {};
+//     var datGUI = new dat.GUI();
+// }
 
 function initLight(){
     scene.add(new THREE.AmbientLight(0x444444));
@@ -71,7 +68,6 @@ function initModel() {
 
     // 材质
     var material = new THREE.MeshStandardMaterial({color:0x00ffff});
-
     // 添加立方体
     var geometry = new THREE.BoxBufferGeometry(1,1,1);
 
@@ -90,15 +86,15 @@ function initModel() {
     scene.add(cube3);
 }
 
-// 初始化性能插件
-function initStats(){
-    stats = new Stats();
-    document.getElementById("display").appendChild(stats.dom);
-    //document.body.appendChild(stats.dom);
-}
+// // 初始化性能插件
+// function initStats(){
+//     stats = new Stats();
+//     document.getElementById("display").appendChild(stats.dom);
+//     //document.body.appendChild(stats.dom);
+// }
 
 function initControls(){
-    controls = new THREE.OrbitControls(this.camera, this.rendener.domElement);
+    controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
     // 设置控制器的中心点
     //controls.target.set( 0, 5, 0 );
     // 如果使用animate方法时，将此函数删除
@@ -150,22 +146,21 @@ function render() {
 function onWindowResize() {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    rendener.setSize(width, height);
+    renderer.setSize(width, height);
 }
 
 function animate() {
     // 每帧额外的运算
     render();
-
     // 更新性能插件
     //stats.update();
     controls.update();
-    rendener.render(scene, camera);
+    renderer.render(scene, camera);
     requestAnimationFrame(animate);
 }
 
 function draw() {
-    initGUI();
+    //initGUI();
     initRender();
     initScene();
     initCamera();
